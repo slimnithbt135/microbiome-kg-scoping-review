@@ -1,0 +1,342 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skgi: <http://skgi.org/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+#================================================================================
+# SKGI SHACL Validation Rules
+# Semantic Knowledge Graph Infrastructure for Microbiome Intelligence
+#================================================================================
+
+#------------------------------------------------------------------------------
+# MicrobialSample Shape
+#------------------------------------------------------------------------------
+skgi:MicrobialSampleShape
+    a sh:NodeShape ;
+    sh:targetClass skgi:MicrobialSample ;
+    rdfs:label "Microbial Sample Shape" ;
+    rdfs:comment "Validation rules for microbial sample entities" ;
+    
+    # Must have a sample ID
+    sh:property [
+        sh:path skgi:sampleId ;
+        sh:name "sample ID" ;
+        sh:description "Unique identifier for the sample" ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Sample must have exactly one non-empty sampleId" ;
+    ] ;
+    
+    # Must have at least one taxonomic classification
+    sh:property [
+        sh:path skgi:hasTaxonomicClassification ;
+        sh:name "taxonomic classification" ;
+        sh:description "Links sample to constituent microbial taxa" ;
+        sh:class skgi:MicrobialTaxon ;
+        sh:minCount 1 ;
+        sh:message "Sample must have at least one taxonomic classification" ;
+    ] ;
+    
+    # Collection date is optional but must be valid date if present
+    sh:property [
+        sh:path skgi:collectionDate ;
+        sh:name "collection date" ;
+        sh:description "Date when sample was collected" ;
+        sh:datatype xsd:date ;
+        sh:maxCount 1 ;
+        sh:message "Collection date must be a valid xsd:date" ;
+    ] ;
+    
+    # Host is optional
+    sh:property [
+        sh:path skgi:collectedFromHost ;
+        sh:name "host organism" ;
+        sh:description "Host organism from which sample was collected" ;
+        sh:class skgi:HostOrganism ;
+        sh:maxCount 1 ;
+    ] ;
+    
+    # Body site is optional
+    sh:property [
+        sh:path skgi:collectedFromSite ;
+        sh:name "body site" ;
+        sh:description "Anatomical site of collection" ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+    ] .
+
+#------------------------------------------------------------------------------
+# MicrobialTaxon Shape
+#------------------------------------------------------------------------------
+skgi:MicrobialTaxonShape
+    a sh:NodeShape ;
+    sh:targetClass skgi:MicrobialTaxon ;
+    rdfs:label "Microbial Taxon Shape" ;
+    rdfs:comment "Validation rules for microbial taxon entities" ;
+    
+    # Must have a label
+    sh:property [
+        sh:path rdfs:label ;
+        sh:name "taxon name" ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Taxon must have exactly one non-empty label" ;
+    ] ;
+    
+    # Must link to NCBI Taxonomy
+    sh:property [
+        sh:path skgi:ncbiTaxonId ;
+        sh:name "NCBI taxonomy ID" ;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 1 ;
+        sh:message "Taxon must have a valid NCBI taxonomy ID" ;
+    ] ;
+    
+    # Optional: functional annotations
+    sh:property [
+        sh:path skgi:hasFunctionalAnnotation ;
+        sh:name "functional annotation" ;
+        sh:class skgi:MicrobialFunction ;
+    ] ;
+    
+    # Optional: ARGs carried
+    sh:property [
+        sh:path skgi:carriesARG ;
+        sh:name "antimicrobial resistance gene" ;
+        sh:class skgi:ARG ;
+    ] .
+
+#------------------------------------------------------------------------------
+# TaxonomicClassification Relationship Shape
+#------------------------------------------------------------------------------
+skgi:TaxonomicClassificationShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf skgi:hasTaxonomicClassification ;
+    rdfs:label "Taxonomic Classification Shape" ;
+    
+    # Abundance must be between 0 and 1 if present
+    sh:property [
+        sh:path skgi:abundance ;
+        sh:name "relative abundance" ;
+        sh:datatype xsd:float ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 0.0 ;
+        sh:maxInclusive 1.0 ;
+        sh:message "Abundance must be between 0.0 and 1.0" ;
+    ] .
+
+#------------------------------------------------------------------------------
+# DiseaseAssociation Shape
+#------------------------------------------------------------------------------
+skgi:DiseaseAssociationShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf skgi:associatedWith ;
+    rdfs:label "Disease Association Shape" ;
+    
+    # Association score must be between 0 and 1
+    sh:property [
+        sh:path skgi:associationScore ;
+        sh:name "association score" ;
+        sh:datatype xsd:float ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 0.0 ;
+        sh:maxInclusive 1.0 ;
+        sh:message "Association score must be between 0.0 and 1.0" ;
+    ] ;
+    
+    # P-value must be between 0 and 1
+    sh:property [
+        sh:path skgi:pValue ;
+        sh:name "p-value" ;
+        sh:datatype xsd:float ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 0.0 ;
+        sh:maxInclusive 1.0 ;
+        sh:message "P-value must be between 0.0 and 1.0" ;
+    ] .
+
+#------------------------------------------------------------------------------
+# ARG Shape
+#------------------------------------------------------------------------------
+skgi:ARGShape
+    a sh:NodeShape ;
+    sh:targetClass skgi:ARG ;
+    rdfs:label "Antimicrobial Resistance Gene Shape" ;
+    
+    # Must have a label
+    sh:property [
+        sh:path rdfs:label ;
+        sh:name "gene name" ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "ARG must have exactly one non-empty label" ;
+    ] ;
+    
+    # Must link to CARD ARO
+    sh:property [
+        sh:path skgi:aroId ;
+        sh:name "CARD ARO ID" ;
+        sh:datatype xsd:string ;
+        sh:pattern "^ARO:[0-9]+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "ARG must have a valid CARD ARO ID (format: ARO:XXXXX)" ;
+    ] ;
+    
+    # Must confer resistance to at least one compound
+    sh:property [
+        sh:path skgi:confersResistanceTo ;
+        sh:name "confers resistance to" ;
+        sh:class skgi:ChemicalCompound ;
+        sh:minCount 1 ;
+        sh:message "ARG must confer resistance to at least one compound" ;
+    ] .
+
+#------------------------------------------------------------------------------
+# ChemicalCompound Shape
+#------------------------------------------------------------------------------
+skgi:ChemicalCompoundShape
+    a sh:NodeShape ;
+    sh:targetClass skgi:ChemicalCompound ;
+    rdfs:label "Chemical Compound Shape" ;
+    
+    # Must have a label
+    sh:property [
+        sh:path rdfs:label ;
+        sh:name "compound name" ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Compound must have exactly one non-empty label" ;
+    ] ;
+    
+    # Should have ChEBI ID
+    sh:property [
+        sh:path skgi:chebiId ;
+        sh:name "ChEBI ID" ;
+        sh:datatype xsd:integer ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 1 ;
+    ] .
+
+#------------------------------------------------------------------------------
+# Provenance Shape
+#------------------------------------------------------------------------------
+skgi:ProvenanceShape
+    a sh:NodeShape ;
+    sh:targetClass skgi:DataSource ;
+    rdfs:label "Data Source Provenance Shape" ;
+    
+    # Must specify data source
+    sh:property [
+        sh:path skgi:dataSource ;
+        sh:name "data source name" ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Data source must specify its name" ;
+    ] ;
+    
+    # Should have access date
+    sh:property [
+        sh:path skgi:accessDate ;
+        sh:name "access date" ;
+        sh:datatype xsd:dateTime ;
+        sh:maxCount 1 ;
+    ] ;
+    
+    # Should have source URL
+    sh:property [
+        sh:path skgi:sourceUrl ;
+        sh:name "source URL" ;
+        sh:datatype xsd:anyURI ;
+        sh:maxCount 1 ;
+    ] .
+
+#------------------------------------------------------------------------------
+# Data Quality Rules
+#------------------------------------------------------------------------------
+
+# Rule: Association score requires p-value
+skgi:AssociationRequiresPValue
+    a sh:NodeShape ;
+    sh:targetObjectsOf skgi:associatedWith ;
+    sh:rule [
+        a sh:TripleRule ;
+        sh:subject sh:this ;
+        sh:predicate skgi:pValue ;
+        sh:object [ sh:path skgi:associationScore ] ;
+        sh:condition [
+            sh:property [
+                sh:path skgi:associationScore ;
+                sh:minCount 1 ;
+            ] ;
+        ] ;
+    ] .
+
+# Rule: Sample must have host or environment
+skgi:SampleContextRule
+    a sh:NodeShape ;
+    sh:targetClass skgi:MicrobialSample ;
+    sh:or (
+        [
+            sh:property [
+                sh:path skgi:collectedFromHost ;
+                sh:minCount 1 ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path skgi:collectedFromEnvironment ;
+                sh:minCount 1 ;
+            ] ;
+        ]
+    ) ;
+    sh:message "Sample should have either a host or environment context" .
+
+#------------------------------------------------------------------------------
+# Ontology Consistency Rules
+#------------------------------------------------------------------------------
+
+# Rule: Taxon ID must be consistent with NCBI
+skgi:NCBITaxonomyConsistency
+    a sh:SPARQLConstraint ;
+    sh:message "Taxon ID must be a valid NCBI taxonomy identifier" ;
+    sh:select """
+        PREFIX skgi: <http://skgi.org/ontology/>
+        SELECT $this
+        WHERE {
+            $this skgi:ncbiTaxonId ?taxid .
+            FILTER (?taxid < 1)
+        }
+    """ .
+
+#------------------------------------------------------------------------------
+# Closed World Constraints (Optional - for strict validation)
+#------------------------------------------------------------------------------
+
+skkgi:StrictMicrobialSampleShape
+    a sh:NodeShape ;
+    sh:targetClass skgi:MicrobialSample ;
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type rdfs:label) ;
+    # Inherits all properties from MicrobialSampleShape
+    .
+
+#================================================================================
+# End of SHACL Validation Rules
+#================================================================================

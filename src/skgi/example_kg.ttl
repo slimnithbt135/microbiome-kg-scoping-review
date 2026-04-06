@@ -1,0 +1,123 @@
+@prefix chebi: <http://purl.obolibrary.org/obo/CHEBI_> .
+@prefix go: <http://purl.obolibrary.org/obo/GO_> .
+@prefix mondo: <http://purl.obolibrary.org/obo/MONDO_> .
+@prefix ncbitaxon: <http://purl.obolibrary.org/obo/NCBITaxon_> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skgi: <http://skgi.org/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+skgi:abundance a owl:DatatypeProperty ;
+    rdfs:label "relative abundance" ;
+    rdfs:range xsd:float .
+
+skgi:associationScore a owl:DatatypeProperty ;
+    rdfs:label "association score" ;
+    rdfs:range xsd:float .
+
+skgi:carriesARG a owl:ObjectProperty ;
+    rdfs:label "carries ARG" ;
+    rdfs:domain skgi:MicrobialTaxon ;
+    rdfs:range skgi:ARG .
+
+skgi:collectedFromHost a owl:ObjectProperty ;
+    rdfs:label "collected from host" ;
+    rdfs:domain skgi:MicrobialSample ;
+    rdfs:range skgi:HostOrganism .
+
+skgi:confersResistanceTo a owl:ObjectProperty ;
+    rdfs:label "confers resistance to" ;
+    rdfs:domain skgi:ARG ;
+    rdfs:range skgi:ChemicalCompound .
+
+skgi:hasFunctionalAnnotation a owl:ObjectProperty ;
+    rdfs:label "has functional annotation" ;
+    rdfs:domain skgi:MicrobialTaxon ;
+    rdfs:range skgi:MicrobialFunction .
+
+skgi:hasTaxonomicClassification a owl:ObjectProperty ;
+    rdfs:label "has taxonomic classification" ;
+    rdfs:domain skgi:MicrobialSample ;
+    rdfs:range skgi:MicrobialTaxon .
+
+skgi:pValue a owl:DatatypeProperty ;
+    rdfs:label "p-value" ;
+    rdfs:range xsd:float .
+
+skgi:sampleId a owl:DatatypeProperty ;
+    rdfs:label "sample identifier" ;
+    rdfs:domain skgi:MicrobialSample ;
+    rdfs:range xsd:string .
+
+<http://skgi.org/sample/S001> a skgi:MicrobialSample ;
+    skgi:collectedFromHost ncbitaxon:9606 ;
+    skgi:collectionDate "2026-01-15"^^xsd:date ;
+    skgi:hasTaxonomicClassification ncbitaxon:1613,
+        ncbitaxon:562,
+        ncbitaxon:816 ;
+    skgi:sampleId "S001" .
+
+<https://card.mcmaster.ca/aro/ARO:3002532> a skgi:ARG ;
+    rdfs:label "blaCTX-M-15" ;
+    skgi:confersResistanceTo chebi:28001,
+        chebi:28971 .
+
+chebi:28001 a skgi:ChemicalCompound .
+
+chebi:28971 a skgi:ChemicalCompound .
+
+go:0005975 a skgi:MicrobialFunction .
+
+go:0008152 a skgi:MicrobialFunction .
+
+ncbitaxon:1613 a skgi:MicrobialTaxon .
+
+ncbitaxon:816 a skgi:MicrobialTaxon .
+
+ncbitaxon:9606 a skgi:HostOrganism .
+
+skgi:Disease a owl:Class ;
+    rdfs:label "Disease" ;
+    rdfs:comment "A disease or pathological condition" .
+
+skgi:associatedWith a owl:ObjectProperty ;
+    rdfs:label "associated with" ;
+    rdfs:domain skgi:MicrobialTaxon ;
+    rdfs:range skgi:Disease .
+
+ncbitaxon:562 a skgi:MicrobialTaxon ;
+    skgi:hasFunctionalAnnotation go:0005975,
+        go:0008152 .
+
+skgi:HostOrganism a owl:Class ;
+    rdfs:label "Host Organism" ;
+    rdfs:comment "An organism that harbors a microbial community" .
+
+skgi:ARG a owl:Class ;
+    rdfs:label "Antimicrobial Resistance Gene" ;
+    rdfs:comment "A gene conferring antimicrobial resistance" .
+
+skgi:ChemicalCompound a owl:Class ;
+    rdfs:label "Chemical Compound" ;
+    rdfs:comment "A chemical substance of biological relevance" .
+
+skgi:MicrobialFunction a owl:Class ;
+    rdfs:label "Microbial Function" ;
+    rdfs:comment "A biological function performed by microorganisms" .
+
+skgi:MicrobialSample a owl:Class ;
+    rdfs:label "Microbial Sample" ;
+    rdfs:comment "A biological sample containing microbial communities" .
+
+skgi:MicrobialTaxon a owl:Class ;
+    rdfs:label "Microbial Taxon" ;
+    rdfs:comment "A taxonomic classification of a microorganism" .
+
+[] a rdf:Statement ;
+    skgi:associationScore 7.5e-01 ;
+    skgi:pValue 1e-03 ;
+    rdf:object mondo:0005148 ;
+    rdf:predicate skgi:associatedWith ;
+    rdf:subject ncbitaxon:562 .
+
