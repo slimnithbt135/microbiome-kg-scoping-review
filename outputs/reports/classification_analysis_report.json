@@ -1,0 +1,206 @@
+{
+  "summary": {
+    "total_studies": 54,
+    "publication_range": {
+      "earliest": 2006,
+      "latest": 2026,
+      "span_years": 21
+    },
+    "mean_publication_year": 2020.6,
+    "median_publication_year": 2023,
+    "mean_classification_confidence": 4.02,
+    "categories_identified": 6,
+    "unique_ontologies_used": 13
+  },
+  "category_distribution": {
+    "total_studies": 54,
+    "categories": {
+      "MDKG-type": {
+        "count": 25,
+        "percentage": 46.3
+      },
+      "KG-Microbe-type": {
+        "count": 23,
+        "percentage": 42.6
+      },
+      "BRIDGE-type": {
+        "count": 2,
+        "percentage": 3.7
+      },
+      "MicrobiomeKG-type": {
+        "count": 2,
+        "percentage": 3.7
+      },
+      "AMR-GNN-type": {
+        "count": 1,
+        "percentage": 1.9
+      },
+      "MINERVA-type": {
+        "count": 1,
+        "percentage": 1.9
+      }
+    }
+  },
+  "technology_distribution": {
+    "technologies": {
+      "RDF/OWL": {
+        "count": 50,
+        "percentage": 92.6
+      },
+      "KG Embeddings": {
+        "count": 2,
+        "percentage": 3.7
+      },
+      "GNN-based": {
+        "count": 1,
+        "percentage": 1.9
+      },
+      "Property Graph": {
+        "count": 1,
+        "percentage": 1.9
+      }
+    }
+  },
+  "fair_compliance": {
+    "fair_compliance": {
+      "High": {
+        "count": 25,
+        "percentage": 46.3
+      },
+      "Low-Moderate": {
+        "count": 25,
+        "percentage": 46.3
+      },
+      "Moderate": {
+        "count": 4,
+        "percentage": 7.4
+      }
+    }
+  },
+  "source_distribution": {
+    "sources": {
+      "pubmed": {
+        "count": 45,
+        "percentage": 83.3
+      },
+      "IEEE Xplore": {
+        "count": 8,
+        "percentage": 14.8
+      },
+      "bioRxiv": {
+        "count": 1,
+        "percentage": 1.9
+      }
+    }
+  },
+  "ontology_usage": {
+    "ontologies": {
+      "NCBITaxon": {
+        "count": 48,
+        "percentage_of_studies": 88.9
+      },
+      "GO": {
+        "count": 25,
+        "percentage_of_studies": 46.3
+      },
+      "ChEBI": {
+        "count": 25,
+        "percentage_of_studies": 46.3
+      },
+      "DOID/MONDO": {
+        "count": 25,
+        "percentage_of_studies": 46.3
+      },
+      "OMP": {
+        "count": 23,
+        "percentage_of_studies": 42.6
+      },
+      "MCO": {
+        "count": 23,
+        "percentage_of_studies": 42.6
+      },
+      "CARD": {
+        "count": 3,
+        "percentage_of_studies": 5.6
+      },
+      "KEGG": {
+        "count": 3,
+        "percentage_of_studies": 5.6
+      },
+      "DrugBank": {
+        "count": 2,
+        "percentage_of_studies": 3.7
+      },
+      "Biolink": {
+        "count": 2,
+        "percentage_of_studies": 3.7
+      },
+      "OHMI": {
+        "count": 2,
+        "percentage_of_studies": 3.7
+      },
+      "UniProt": {
+        "count": 1,
+        "percentage_of_studies": 1.9
+      },
+      "Custom schema": {
+        "count": 1,
+        "percentage_of_studies": 1.9
+      }
+    }
+  },
+  "temporal_trends": {
+    "years": {
+      "2006": 1,
+      "2009": 3,
+      "2010": 1,
+      "2013": 1,
+      "2014": 5,
+      "2015": 1,
+      "2018": 1,
+      "2019": 5,
+      "2020": 2,
+      "2021": 1,
+      "2022": 4,
+      "2023": 7,
+      "2024": 6,
+      "2025": 13,
+      "2026": 3
+    },
+    "periods": {
+      "2022_2026": {
+        "count": 33,
+        "percentage": 61.1
+      },
+      "2020_2021": {
+        "count": 3,
+        "percentage": 5.6
+      },
+      "before_2020": {
+        "count": 18,
+        "percentage": 33.3
+      }
+    },
+    "peak_year": 2025,
+    "peak_count": 13
+  },
+  "classification_confidence": {
+    "confidence_levels": {
+      "high": {
+        "threshold": ">=7",
+        "count": 6,
+        "percentage": 11.1
+      },
+      "medium": {
+        "threshold": "4-6",
+        "count": 22,
+        "percentage": 40.7
+      },
+      "low": {
+        "threshold": "<4",
+        "count": 26,
+        "percentage": 48.1
+      }
+    }
+  }
+}
