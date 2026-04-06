@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "generated": "2026-04-02T17:31:28.030121",
+    "type": "Scoping Review",
+    "guideline": "PRISMA-ScR"
+  },
+  "identification": {
+    "total_records": 769,
+    "by_source": {
+      "pubmed": 725,
+      "bioRxiv": 34,
+      "IEEE Xplore": 10
+    }
+  },
+  "deduplication": {
+    "duplicates_removed": 0,
+    "records_after_dedup": 769
+  },
+  "screening": {
+    "included": 54,
+    "excluded": 715
+  },
+  "exclusion_reasons": {
+    "E1: Not microbiome-related": 441,
+    "E2: No KG/semantic web terms": 274
+  },
+  "included_by_source": {
+    "pubmed": 45,
+    "bioRxiv": 1,
+    "IEEE Xplore": 8
+  }
+}
