@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the article and the software itself."
+type: software
+title: "Microbiome Knowledge Graph Scoping Review"
+authors:
+  - family-names: "Slimani"
+    given-names: "Thabet"
+    affiliation: "Taif University"
+repository-code: "https://github.com/username/microbiome-kg-scoping-review"
+license: MIT
+version: 1.0.0
+date-released: 2026-04-06
+
+preferred-citation:
+  type: article
+  title: "Toward Semantic Knowledge Graph Infrastructure for Microbiome Intelligence: A PRISMA-ScR-Based Analysis and Framework"
+  authors:
+    - family-names: "Slimani"
+      given-names: "Thabet"
+  journal: "Briefings in Bioinformatics"
+  year: 2026
