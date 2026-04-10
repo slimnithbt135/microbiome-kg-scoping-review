@@ -6,8 +6,9 @@
 
 ## 1. Overview
 
-This document defines standardized benchmarking protocols for evaluating Semantic Knowledge Graph Infrastructure (SKGI) implementations. The protocols cover four evaluation dimensions:
+This document defines proposed benchmarking protocols for evaluating Semantic Knowledge Graph Infrastructure (SKGI) implementations. These are aspirational targets for future evaluation, not validated metrics from existing systems.
 
+The protocols cover four proposed evaluation dimensions:
 1. Link Prediction Accuracy
 2. Entity Resolution Performance
 3. Query Response Time
@@ -15,41 +16,40 @@ This document defines standardized benchmarking protocols for evaluating Semanti
 
 ---
 
-## 2. Competency Queries
+## 2. Competency Queries (Proposed)
 
 ### CQ1: Find Microbes Associated with a Disease
 
-**Purpose:** Retrieve microbial taxa associated with a specific disease, ranked by association strength.
+Purpose: Retrieve microbial taxa associated with a specific disease, ranked by association strength.
 
-**SPARQL Query:**
-```sparql
+SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX mondo: <http://purl.obolibrary.org/obo/MONDO_>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?microbe ?microbeName ?associationScore ?pValue
 WHERE {
-  ?microbe skgi:associatedWith mondo:0005148 ;  # Type 2 diabetes
+  ?microbe skgi:associatedWith mondo:0005148 ;
            skgi:associationScore ?associationScore .
   OPTIONAL { ?microbe skgi:pValue ?pValue }
   ?microbe rdfs:label ?microbeName .
 }
 ORDER BY DESC(?associationScore)
 LIMIT 10
-```
 
-**Target Performance:**
+Proposed Target Performance:
 - Execution time: < 2 seconds (graphs < 500K nodes)
 - Execution time: < 5 seconds (graphs < 1M nodes)
+
+Status: Not benchmarked. Targets based on community best practices.
 
 ---
 
 ### CQ2: Identify ARGs in a Taxonomic Clade
 
-**Purpose:** Find antimicrobial resistance genes carried by taxa within a specific clade.
+Purpose: Find antimicrobial resistance genes carried by taxa within a specific clade.
 
-**SPARQL Query:**
-```sparql
+SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX ncbitaxon: <http://purl.obolibrary.org/obo/NCBITaxon_>
 PREFIX card: <https://card.mcmaster.ca/aro/>
@@ -62,24 +62,22 @@ WHERE {
   ?arg rdfs:label ?argName ;
        skgi:confersResistanceTo ?drug ;
        card:hasResistanceMechanism ?mechanism .
-  
-  # Filter by taxonomic clade (e.g., Enterobacteriaceae: NCBITaxon:543)
   FILTER (strstarts(str(?taxon), str(ncbitaxon:543)))
 }
 ORDER BY ?taxon
-```
 
-**Target Performance:**
+Proposed Target Performance:
 - Execution time: < 5 seconds (graphs < 1M nodes)
+
+Status: Not benchmarked.
 
 ---
 
 ### CQ3: Find Metabolic Pathways in Gut Samples
 
-**Purpose:** Identify metabolic pathways enriched in gut microbiome samples.
+Purpose: Identify metabolic pathways enriched in gut microbiome samples.
 
-**SPARQL Query:**
-```sparql
+SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX go: <http://purl.obolibrary.org/obo/GO_>
 PREFIX uberon: <http://purl.obolibrary.org/obo/UBERON_>
@@ -87,7 +85,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?sample ?pathway ?pathwayName (COUNT(?taxon) AS ?taxonCount)
 WHERE {
-  ?sample skgi:collectedFromSite uberon:0001155 ;  # large intestine
+  ?sample skgi:collectedFromSite uberon:0001155 ;
           skgi:hasTaxonomicClassification ?taxon .
   ?taxon skgi:hasFunctionalAnnotation ?pathway .
   ?pathway rdfs:label ?pathwayName .
@@ -95,19 +93,19 @@ WHERE {
 GROUP BY ?sample ?pathway ?pathwayName
 ORDER BY DESC(?taxonCount)
 LIMIT 20
-```
 
-**Target Performance:**
+Proposed Target Performance:
 - Execution time: < 10 seconds (graphs < 1M nodes)
+
+Status: Not benchmarked.
 
 ---
 
-### CQ4: Multi-hop Path Query (Gut Microbiome → Disease)
+### CQ4: Multi-hop Path Query (Gut Microbiome -> Disease)
 
-**Purpose:** Discover indirect relationships between gut microbes and diseases through intermediate entities.
+Purpose: Discover indirect relationships between gut microbes and diseases through intermediate entities.
 
-**SPARQL Query:**
-```sparql
+SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX uberon: <http://purl.obolibrary.org/obo/UBERON_>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -122,123 +120,112 @@ WHERE {
 GROUP BY ?microbe ?compound ?disease
 ORDER BY DESC(?pathCount)
 LIMIT 10
-```
 
-**Target Performance:**
+Proposed Target Performance:
 - Execution time: < 15 seconds (graphs < 1M nodes)
+
+Status: Not benchmarked.
 
 ---
 
 ### CQ5: Federated Query (External Database Integration)
 
-**Purpose:** Query across multiple distributed knowledge graphs.
+Purpose: Query across multiple distributed knowledge graphs.
 
-**SPARQL Query:**
-```sparql
+SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX service: <http://skgi.org/service/>
 
 SELECT ?sample ?taxon ?externalData
 WHERE {
   ?sample skgi:hasTaxonomicClassification ?taxon .
-  
   SERVICE service:ncbi {
     ?taxon skgi:ncbiTaxonId ?ncbiId .
   }
-  
   SERVICE service:ebi {
     ?taxon skgi:ebiReference ?externalData .
   }
 }
-```
 
-**Target Performance:**
+Proposed Target Performance:
 - Execution time: < 30 seconds
+
+Status: Not benchmarked. No federated systems found in review.
 
 ---
 
-## 3. Link Prediction Benchmark
+## 3. Link Prediction Benchmark (Proposed)
 
 ### 3.1 Dataset: CARD Gene-Drug Associations
 
-**Source:** Comprehensive Antibiotic Resistance Database (CARD)
+Source: Comprehensive Antibiotic Resistance Database (CARD)
 
-**Statistics:**
-- Total associations: ~3,000
-- Training set: 2,400 (80%)
-- Test set: 600 (20%)
+Statistics:
+- Total associations: ~3,000 (estimated from CARD documentation)
+- Training set: 2,400 (80%) - proposed split
+- Test set: 600 (20%) - proposed split
 
-**Format:**
-```
+Status: Splits not created or validated.
+
+Format:
 gene_id,drug_id,relationship
 ARO:3002532,CHEBI:28971,resistance
 ARO:3003982,CHEBI:28001,resistance
-...
-```
 
-### 3.2 Evaluation Metrics
+### 3.2 Proposed Target Metrics
 
-| Metric | Formula | Target |
-|--------|---------|--------|
-| **MRR** | (1/\|Q\|) Σ (1/rank_i) | > 0.30 |
-| **Hits@1** | \|rank ≤ 1\| / \|Q\| | > 0.20 |
-| **Hits@3** | \|rank ≤ 3\| / \|Q\| | > 0.35 |
-| **Hits@10** | \|rank ≤ 10\| / \|Q\| | > 0.50 |
-| **AUC-ROC** | Area under ROC curve | > 0.85 |
+| Metric | Formula | Proposed Target | Status |
+|--------|---------|---------------|--------|
+| MRR | (1/|Q|) sum (1/rank_i) | > 0.30 | Not validated |
+| Hits@1 | |rank <= 1| / |Q| | > 0.20 | Not validated |
+| Hits@3 | |rank <= 3| / |Q| | > 0.35 | Not validated |
+| Hits@10 | |rank <= 10| / |Q| | > 0.50 | Not validated |
+| AUC-ROC | Area under ROC curve | > 0.85 | Not validated |
 
-### 3.3 Baseline Methods
+Note: Targets based on general KG embedding literature, not microbiome-specific benchmarks.
 
-```python
-# TransE implementation
+### 3.3 Baseline Methods (Illustrative)
+
+TransE implementation - EXAMPLE CODE, NOT TESTED:
 from pykeen.models import TransE
+model = TransE(triples_factory=tf, embedding_dim=128, random_seed=42)
 
-model = TransE(
-    triples_factory=tf,
-    embedding_dim=128,
-    random_seed=42
-)
-
-# RotatE implementation
+RotatE implementation - EXAMPLE CODE, NOT TESTED:
 from pykeen.models import RotatE
+model = RotatE(triples_factory=tf, embedding_dim=128, random_seed=42)
 
-model = RotatE(
-    triples_factory=tf,
-    embedding_dim=128,
-    random_seed=42
-)
-
-# R-GCN implementation
+R-GCN implementation - EXAMPLE CODE, NOT TESTED:
 from torch_geometric.nn import RGCNConv
-
 class RGCNModel(torch.nn.Module):
     def __init__(self, num_nodes, num_relations, hidden_dim):
         super().__init__()
         self.conv1 = RGCNConv(num_nodes, hidden_dim, num_relations)
         self.conv2 = RGCNConv(hidden_dim, hidden_dim, num_relations)
-```
 
 ---
 
-## 4. Entity Resolution Benchmark
+## 4. Entity Resolution Benchmark (Proposed)
 
 ### 4.1 Task: Taxonomic Identifier Alignment
 
-**Objective:** Align taxon identifiers from different sources (NCBI, GTDB, SILVA).
+Objective: Align taxon identifiers from different sources (NCBI, GTDB, SILVA).
 
-**Dataset:**
-- Source: 500 taxa from MGnify human gut studies
+Proposed Dataset:
+- Source: 500 taxa from MGnify human gut studies (not curated)
 - Reference: NCBI Taxonomy
 - Target: GTDB and SILVA identifiers
 
-### 4.2 Evaluation Metrics
+Status: Dataset not assembled.
 
-| Metric | Formula | Target |
-|--------|---------|--------|
-| **Precision** | TP / (TP + FP) | > 0.90 |
-| **Recall** | TP / (TP + FN) | > 0.80 |
-| **F1-score** | 2 × (P × R) / (P + R) | > 0.85 |
+### 4.2 Proposed Target Metrics
 
-### 4.3 Alignment Tools
+| Metric | Formula | Proposed Target | Status |
+|--------|---------|---------------|--------|
+| Precision | TP / (TP + FP) | > 0.90 | Not validated |
+| Recall | TP / (TP + FN) | > 0.80 | Not validated |
+| F1-score | 2 * (P * R) / (P + R) | > 0.85 | Not validated |
+
+### 4.3 Alignment Tools (Reference Only)
 
 | Tool | Type | Best For |
 |------|------|----------|
@@ -246,35 +233,33 @@ class RGCNModel(torch.nn.Module):
 | AML | Biomedical | High precision |
 | PARIS | Probabilistic | Schema integration |
 
+Note: Tool recommendations based on OAEI literature, not tested in this context.
+
 ---
 
-## 5. Query Performance Benchmark
+## 5. Query Performance Benchmark (Proposed)
 
-### 5.1 Test Suite
+### 5.1 Proposed Test Suite
 
-| Query ID | Description | Target Time |
-|----------|-------------|-------------|
-| CQ1 | Disease-microbe associations | < 2 sec |
-| CQ2 | ARG identification | < 5 sec |
-| CQ3 | Metabolic pathway analysis | < 10 sec |
-| CQ4 | Multi-hop path queries | < 15 sec |
-| CQ5 | Federated queries | < 30 sec |
+| Query ID | Description | Proposed Target Time | Status |
+|----------|-------------|---------------------|--------|
+| CQ1 | Disease-microbe associations | < 2 sec | Not tested |
+| CQ2 | ARG identification | < 5 sec | Not tested |
+| CQ3 | Metabolic pathway analysis | < 10 sec | Not tested |
+| CQ4 | Multi-hop path queries | < 15 sec | Not tested |
+| CQ5 | Federated queries | < 30 sec | Not tested |
 
-### 5.2 Measurement Protocol
+### 5.2 Measurement Protocol (Illustrative)
 
-```python
+Example benchmarking function - NOT TESTED:
 import time
-
 def benchmark_query(kg, query, num_runs=10):
-    """Benchmark a SPARQL query."""
     times = []
-    
     for _ in range(num_runs):
         start = time.time()
         kg.query(query)
         elapsed = time.time() - start
         times.append(elapsed)
-    
     return {
         'mean': sum(times) / len(times),
         'median': sorted(times)[len(times)//2],
@@ -282,85 +267,70 @@ def benchmark_query(kg, query, num_runs=10):
         'max': max(times),
         'std': statistics.stdev(times)
     }
-```
 
-### 5.3 Scalability Testing
+### 5.3 Proposed Scalability Testing
 
-| Graph Size | Nodes | Edges | Expected CQ1 Time |
+| Graph Size | Nodes | Edges | Proposed CQ1 Time |
 |------------|-------|-------|-------------------|
 | Small | < 100K | < 500K | < 1 sec |
 | Medium | 100K-1M | 500K-5M | < 3 sec |
 | Large | 1M-10M | 5M-50M | < 10 sec |
 | Very Large | > 10M | > 50M | < 30 sec |
 
+Status: Not tested. Estimates based on general graph database performance literature.
+
 ---
 
-## 6. Explainability Metrics
+## 6. Explainability Metrics (Proposed)
 
 ### 6.1 Attention-Based Explainability
 
 For GNN models with attention mechanisms:
 
-```python
+Example function - NOT TESTED:
 def compute_attention_explainability(model, graph, target):
-    """Compute attention-based explainability scores."""
     model.eval()
-    
-    # Get attention weights
     _, attention_weights = model(graph.x, graph.edge_index, return_attention_weights=True)
-    
-    # Rank edges by attention weight
     edge_importance = attention_weights.argsort(descending=True)
-    
     return edge_importance
-```
 
 ### 6.2 Path-Based Explainability
 
-```python
+Example function - NOT TESTED:
 def extract_explanation_paths(kg, source, target, max_length=3):
-    """Extract paths between source and target entities."""
     query = f"""
     PREFIX skgi: <http://skgi.org/ontology/>
-    
     SELECT ?path
     WHERE {{
       ?path skgi:connects <{source}> , <{target}> .
     }}
     LIMIT {max_length}
     """
-    
     return kg.query(query)
-```
 
-### 6.3 Evaluation Criteria
+### 6.3 Proposed Evaluation Criteria
 
-| Criterion | Metric | Target |
-|-----------|--------|--------|
-| Path completeness | % of true positives with explanation | > 80% |
-| Path conciseness | Average path length | < 4 hops |
-| Human interpretability | User study rating (1-5) | > 3.5 |
+| Criterion | Metric | Proposed Target | Status |
+|-----------|--------|---------------|--------|
+| Path completeness | % of true positives with explanation | > 80% | Not validated |
+| Path conciseness | Average path length | < 4 hops | Not validated |
+| Human interpretability | User study rating (1-5) | > 3.5 | Not validated |
 
 ---
 
-## 7. Benchmarking Tools
+## 7. Benchmarking Tools (Illustrative)
 
-### 7.1 Python Script
+### 7.1 Python Script (Example Structure)
 
-```python
-# benchmark_skgi.py
+benchmark_skgi.py - EXAMPLE STRUCTURE, NOT IMPLEMENTED:
 import json
 from pathlib import Path
 from datetime import datetime
-
-from src.skgi import MicrobiomeKG
+from src.skgi import MicrobiomeKG  # Hypothetical module
 
 def run_benchmarks(kg_path: Path, output_dir: Path):
-    """Run all SKGI benchmarks."""
-    
     kg = MicrobiomeKG()
     kg.load(kg_path)
-    
     results = {
         'timestamp': datetime.now().isoformat(),
         'kg_size': kg.get_statistics(),
@@ -369,22 +339,16 @@ def run_benchmarks(kg_path: Path, output_dir: Path):
         'entity_resolution': {},
         'explainability': {}
     }
-    
-    # Run competency queries
     for cq_id, query in COMPETENCY_QUERIES.items():
         results['competency_queries'][cq_id] = benchmark_query(kg, query)
-    
-    # Save results
     output_file = output_dir / f"benchmark_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
-    
     return results
-```
 
-### 7.2 Output Format
+### 7.2 Output Format (Proposed)
 
-```json
+Example output structure (values illustrative, not from actual benchmarks):
 {
   "timestamp": "2026-04-05T10:30:00",
   "kg_size": {
@@ -407,34 +371,18 @@ def run_benchmarks(kg_path: Path, output_dir: Path):
     "auc_roc": 0.87
   }
 }
-```
 
 ---
 
-## 8. Reporting Results
+## 8. Reporting Results (Proposed Guidelines)
 
 ### 8.1 Minimum Reporting Requirements
 
 When reporting benchmark results, include:
-
-1. **System specifications**
-   - Hardware (CPU, RAM, storage)
-   - Software versions
-   - Triple store / graph database
-
-2. **Dataset characteristics**
-   - Number of nodes and edges
-   - Ontologies used
-   - Data sources
-
-3. **Benchmark configuration**
-   - Query parameters
-   - Number of runs
-   - Warm-up iterations
-
-4. **Raw results**
-   - Mean, median, min, max, std
-   - Confidence intervals
+1. System specifications (Hardware, Software versions, Triple store / graph database)
+2. Dataset characteristics (Number of nodes and edges, Ontologies used, Data sources)
+3. Benchmark configuration (Query parameters, Number of runs, Warm-up iterations)
+4. Raw results (Mean, median, min, max, std, Confidence intervals)
 
 ---
 
@@ -446,6 +394,7 @@ When reporting benchmark results, include:
 
 ---
 
-**Document version:** 1.0  
-**Last updated:** April 5, 2026  
-**Maintainer:** Thabet Slimani (t.slimani@tu.edu.sa)
+Document version: 1.0
+Last updated: April 11, 2026
+Status: PROPOSED FRAMEWORK - Not validated or benchmarked
+Maintainer: [Thabet Slimani - thabet.slimani@gmail.com]
