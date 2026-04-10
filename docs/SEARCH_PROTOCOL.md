@@ -53,10 +53,9 @@ Search Parameters:
 - Publication years: All years
 - Content type: All content types
 
-bioRxiv (via Crossref API)
-URL: https://api.crossref.org/
+bioRxiv (https://www.biorxiv.org/)
 
-API Query:
+or with API Query:
 ```
 import requests
 url = "https://api.crossref.org/works"
@@ -75,7 +74,6 @@ Search Parameters:
 - Publication date range: 2000-01-01 to 2026-03-31
 - Content type: posted-content (preprints)
 - Publisher filter: bioRxiv, medRxiv
-
 
 
 ## 3. Search Development
