@@ -230,8 +230,6 @@ Systems employing graph neural networks for antimicrobial resistance classificat
 ---
 
 ## Classification Decision Tree
-
-```
 Start
 │
 ├─► Microbiome-related? ──► NO ──► Exclude (E1)
@@ -251,24 +249,16 @@ Start
 ├─► GNN for AMR? ──► YES ──► AMR-GNN-type
 │
 └─► Other ──► Review manually
-```
 
 ---
 
-## Inter-Rater Reliability
+## Classification Validation and Limitations
 
-### Validation Study
-- **Sample size:** 14 studies (26% of included)
-- **Reviewers:** 2 independent reviewers
-- **Metric:** Cohen's kappa
-- **Result:** κ = 0.72 (substantial agreement)
+### Single-Reviewer Process
+Classification was conducted by a single reviewer (the author) using the decision logic illustrated in Figure 7. No inter-rater reliability assessment was performed. The taxonomy should be interpreted as an organizational framework requiring external validation in future work.
 
-### Disagreement Resolution
-Disagreements were resolved through discussion, leading to clarification of category definitions.
-
----
-
-## Classification Confidence
+### Classification Confidence
+To flag borderline cases, a qualitative confidence score (1–10) was self-assigned based on the clarity of match between a study's stated objective, its data model, and its graph technology stack:
 
 | Confidence Level | Score Range | Studies | Percentage |
 |------------------|-------------|---------|------------|
@@ -276,20 +266,17 @@ Disagreements were resolved through discussion, leading to clarification of cate
 | Medium | 4-6 | 22 | 40.7% |
 | Low | <4 | 26 | 48.1% |
 
-High confidence indicates clear alignment with category definition. Low confidence often reflects borderline cases or limited information in abstracts.
+Low confidence scores indicate cases where primary objectives spanned multiple categories or methodological details were ambiguous.
 
 ---
 
 ## Category Distribution
-
-```
 MDKG-type        ██████████████████████████  46.3% (25)
 KG-Microbe-type  ████████████████████████    42.6% (23)
 MicrobiomeKG-type ██                         3.7% (2)
 BRIDGE-type      ██                         3.7% (2)
 MINERVA-type     █                          1.9% (1)
 AMR-GNN-type     █                          1.9% (1)
-```
 
 ---
 
@@ -316,5 +303,5 @@ Recent growth is observed in all categories, with MDKG-type showing the stronges
 ---
 
 **Document version:** 1.0  
-**Last updated:** April 5, 2026  
-**Maintainer:** Thabet Slimani (t.slimani@tu.edu.sa)
+**Last updated:** April 13, 2026  
+**Maintainer:** [Thabet Slimani - thabet.slimani@gmail.com]
