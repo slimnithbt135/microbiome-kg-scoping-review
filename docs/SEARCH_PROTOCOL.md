@@ -28,10 +28,10 @@ What is the current landscape of knowledge graph applications in microbiome rese
 
 PubMed (via NCBI E-utilities)
 URL: https://pubmed.ncbi.nlm.nih.gov/
-'''
+```
 Search String:
 ((microbiome[Title/Abstract] OR microbiota[Title/Abstract] OR microbial[Title/Abstract] OR "gut bacteria"[Title/Abstract] OR "bacterial community"[Title/Abstract]) AND ("knowledge graph"[Title/Abstract] OR "semantic web"[Title/Abstract] OR "linked data"[Title/Abstract] OR ontology[Title/Abstract] OR RDF[Title/Abstract] OR "graph database"[Title/Abstract]))
-'''
+```
 Search Parameters:
 - Search fields: Title/Abstract [Title/Abstract]
 - Boolean operators: AND, OR
@@ -43,9 +43,9 @@ IEEE Xplore
 URL: https://ieeexplore.ieee.org/
 
 Search String:
-'''
+```
 (("microbiome" OR "microbiota" OR "microbial" OR "gut bacteria") AND ("knowledge graph" OR "semantic web" OR "ontology" OR "RDF" OR "graph database"))
-'''
+```
 
 Search Parameters:
 - Search within: All Content
@@ -57,7 +57,7 @@ bioRxiv (via Crossref API)
 URL: https://api.crossref.org/
 
 API Query:
-'''
+```
 import requests
 url = "https://api.crossref.org/works"
 params = {
@@ -69,7 +69,7 @@ params = {
 }
 response = requests.get(url, params=params)
 data = response.json()
-'''
+```
 Search Parameters:
 - Query terms: "microbiome knowledge graph"
 - Publication date range: 2000-01-01 to 2026-03-31
@@ -189,13 +189,13 @@ IEEE Xplore: Document Title, Authors, Publication Title, Publication Year, DOI, 
 bioRxiv: Title, Authors, Published Date, DOI, Publisher, Abstract
 
 ### 7.2 File Locations
-
+```
 data/raw/
 ├── pubmed_results_20260331.csv
 ├── exportIEEEEexplorer.csv
 └── biorxiv_crossref_50_results.csv
 
----
+```
 
 ## 8. Search Documentation
 
