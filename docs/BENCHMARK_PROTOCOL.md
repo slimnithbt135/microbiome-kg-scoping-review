@@ -21,7 +21,7 @@ The protocols cover four proposed evaluation dimensions:
 ### CQ1: Find Microbes Associated with a Disease
 
 Purpose: Retrieve microbial taxa associated with a specific disease, ranked by association strength.
-
+```
 SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX mondo: <http://purl.obolibrary.org/obo/MONDO_>
@@ -36,7 +36,7 @@ WHERE {
 }
 ORDER BY DESC(?associationScore)
 LIMIT 10
-
+```
 Proposed Target Performance:
 - Execution time: < 2 seconds (graphs < 500K nodes)
 - Execution time: < 5 seconds (graphs < 1M nodes)
@@ -48,7 +48,7 @@ Status: Not benchmarked. Targets based on community best practices.
 ### CQ2: Identify ARGs in a Taxonomic Clade
 
 Purpose: Find antimicrobial resistance genes carried by taxa within a specific clade.
-
+```
 SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX ncbitaxon: <http://purl.obolibrary.org/obo/NCBITaxon_>
@@ -65,7 +65,7 @@ WHERE {
   FILTER (strstarts(str(?taxon), str(ncbitaxon:543)))
 }
 ORDER BY ?taxon
-
+```
 Proposed Target Performance:
 - Execution time: < 5 seconds (graphs < 1M nodes)
 
@@ -76,7 +76,7 @@ Status: Not benchmarked.
 ### CQ3: Find Metabolic Pathways in Gut Samples
 
 Purpose: Identify metabolic pathways enriched in gut microbiome samples.
-
+```
 SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX go: <http://purl.obolibrary.org/obo/GO_>
@@ -93,7 +93,7 @@ WHERE {
 GROUP BY ?sample ?pathway ?pathwayName
 ORDER BY DESC(?taxonCount)
 LIMIT 20
-
+```
 Proposed Target Performance:
 - Execution time: < 10 seconds (graphs < 1M nodes)
 
@@ -104,7 +104,7 @@ Status: Not benchmarked.
 ### CQ4: Multi-hop Path Query (Gut Microbiome -> Disease)
 
 Purpose: Discover indirect relationships between gut microbes and diseases through intermediate entities.
-
+```
 SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX uberon: <http://purl.obolibrary.org/obo/UBERON_>
@@ -120,7 +120,7 @@ WHERE {
 GROUP BY ?microbe ?compound ?disease
 ORDER BY DESC(?pathCount)
 LIMIT 10
-
+```
 Proposed Target Performance:
 - Execution time: < 15 seconds (graphs < 1M nodes)
 
@@ -131,7 +131,7 @@ Status: Not benchmarked.
 ### CQ5: Federated Query (External Database Integration)
 
 Purpose: Query across multiple distributed knowledge graphs.
-
+```
 SPARQL Query:
 PREFIX skgi: <http://skgi.org/ontology/>
 PREFIX service: <http://skgi.org/service/>
@@ -146,7 +146,7 @@ WHERE {
     ?taxon skgi:ebiReference ?externalData .
   }
 }
-
+```
 Proposed Target Performance:
 - Execution time: < 30 seconds
 
@@ -187,6 +187,7 @@ Note: Targets based on general KG embedding literature, not microbiome-specific 
 ### 3.3 Baseline Methods (Illustrative)
 
 TransE implementation - EXAMPLE CODE, NOT TESTED:
+```
 from pykeen.models import TransE
 model = TransE(triples_factory=tf, embedding_dim=128, random_seed=42)
 
@@ -202,7 +203,7 @@ class RGCNModel(torch.nn.Module):
         self.conv1 = RGCNConv(num_nodes, hidden_dim, num_relations)
         self.conv2 = RGCNConv(hidden_dim, hidden_dim, num_relations)
 
----
+```
 
 ## 4. Entity Resolution Benchmark (Proposed)
 
@@ -252,6 +253,7 @@ Note: Tool recommendations based on OAEI literature, not tested in this context.
 ### 5.2 Measurement Protocol (Illustrative)
 
 Example benchmarking function - NOT TESTED:
+```
 import time
 def benchmark_query(kg, query, num_runs=10):
     times = []
@@ -267,7 +269,7 @@ def benchmark_query(kg, query, num_runs=10):
         'max': max(times),
         'std': statistics.stdev(times)
     }
-
+```
 ### 5.3 Proposed Scalability Testing
 
 | Graph Size | Nodes | Edges | Proposed CQ1 Time |
@@ -288,15 +290,17 @@ Status: Not tested. Estimates based on general graph database performance litera
 For GNN models with attention mechanisms:
 
 Example function - NOT TESTED:
+```
 def compute_attention_explainability(model, graph, target):
     model.eval()
     _, attention_weights = model(graph.x, graph.edge_index, return_attention_weights=True)
     edge_importance = attention_weights.argsort(descending=True)
     return edge_importance
-
+```
 ### 6.2 Path-Based Explainability
 
 Example function - NOT TESTED:
+```
 def extract_explanation_paths(kg, source, target, max_length=3):
     query = f"""
     PREFIX skgi: <http://skgi.org/ontology/>
@@ -307,7 +311,7 @@ def extract_explanation_paths(kg, source, target, max_length=3):
     LIMIT {max_length}
     """
     return kg.query(query)
-
+```
 ### 6.3 Proposed Evaluation Criteria
 
 | Criterion | Metric | Proposed Target | Status |
@@ -323,6 +327,7 @@ def extract_explanation_paths(kg, source, target, max_length=3):
 ### 7.1 Python Script (Example Structure)
 
 benchmark_skgi.py - EXAMPLE STRUCTURE, NOT IMPLEMENTED:
+```
 import json
 from pathlib import Path
 from datetime import datetime
@@ -345,9 +350,9 @@ def run_benchmarks(kg_path: Path, output_dir: Path):
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
     return results
-
+```
 ### 7.2 Output Format (Proposed)
-
+```
 Example output structure (values illustrative, not from actual benchmarks):
 {
   "timestamp": "2026-04-05T10:30:00",
@@ -372,7 +377,7 @@ Example output structure (values illustrative, not from actual benchmarks):
   }
 }
 
----
+```
 
 ## 8. Reporting Results (Proposed Guidelines)
 
