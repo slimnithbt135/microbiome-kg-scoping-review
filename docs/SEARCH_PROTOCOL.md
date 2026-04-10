@@ -11,7 +11,7 @@ Review Type: PRISMA-ScR (Preferred Reporting Items for Systematic Reviews and Me
 
 What is the current landscape of knowledge graph applications in microbiome research, and what are the key characteristics, technologies, and gaps in existing systems?
 
----
+
 
 ## 2. Search Strategy
 
@@ -76,7 +76,7 @@ Search Parameters:
 - Content type: posted-content (preprints)
 - Publisher filter: bioRxiv, medRxiv
 
----
+
 
 ## 3. Search Development
 
@@ -113,7 +113,7 @@ Partially included in final strategy; not used alone as it would miss conceptual
 
 Note: Impact estimates based on preliminary query exploration, not systematic benchmarking.
 
----
+
 
 ## 4. Deduplication Strategy
 
@@ -178,7 +178,7 @@ No formal precision assessment was conducted due to resource constraints. The fi
 5. Author contact: Authors not contacted to identify additional unpublished studies.
 6. Validation: No formal precision or sensitivity benchmarking performed.
 
----
+
 
 ## 7. Data Export
 
