@@ -150,7 +150,7 @@ Stage 3: Similarity Matching
 
 The lack of overlap indicates that each database captured distinct literature.
 
----
+
 
 ## 5. Search Validation
 
@@ -165,7 +165,7 @@ No formal precision assessment was conducted due to resource constraints. The fi
 - Manageable inclusion volume for scoping review scope
 - Coverage of key databases in biomedical and computational domains
 
----
+
 
 ## 6. Search Limitations
 
@@ -175,8 +175,6 @@ No formal precision assessment was conducted due to resource constraints. The fi
 4. Citation searching: Forward and backward citation searching not performed.
 5. Author contact: Authors not contacted to identify additional unpublished studies.
 6. Validation: No formal precision or sensitivity benchmarking performed.
-
-
 
 ## 7. Data Export
 
@@ -212,15 +210,11 @@ Note: Timestamps from screening_report.json metadata. Verify against actual exec
 
 Search strings and parameters are version-controlled in this repository.
 
----
-
 ## 9. References
 
 1. Tricco AC, et al. PRISMA Extension for Scoping Reviews (PRISMA-ScR): Checklist and Explanation. Ann Intern Med. 2018;169(7):467-473.
 2. Levac D, et al. Scoping reviews: time for clarity in definition, methods, and reporting. J Clin Epidemiol. 2010;63(12):1291-1294.
 
----
-
 Document version: 1.0
-Last updated: April 12, 2026
+Last updated: April 13, 2026
 Maintainer: [Thabet Slimani - thabet.slimani@gmail.com]
