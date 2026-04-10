@@ -227,9 +227,9 @@ Systems employing graph neural networks for antimicrobial resistance classificat
 - Limited semantic grounding
 - Computational intensity
 
----
 
 ## Classification Decision Tree
+```
 Start
 │
 ├─► Microbiome-related? ──► NO ──► Exclude (E1)
@@ -250,7 +250,7 @@ Start
 │
 └─► Other ──► Review manually
 
----
+```
 
 ## Classification Validation and Limitations
 
@@ -271,6 +271,7 @@ Low confidence scores indicate cases where primary objectives spanned multiple c
 ---
 
 ## Category Distribution
+```
 MDKG-type        ██████████████████████████  46.3% (25)
 KG-Microbe-type  ████████████████████████    42.6% (23)
 MicrobiomeKG-type ██                         3.7% (2)
@@ -278,8 +279,7 @@ BRIDGE-type      ██                         3.7% (2)
 MINERVA-type     █                          1.9% (1)
 AMR-GNN-type     █                          1.9% (1)
 
----
-
+```
 ## Temporal Trends by Category
 
 | Period | MDKG-type | KG-Microbe-type | Other |
