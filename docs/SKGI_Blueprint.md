@@ -3,12 +3,12 @@
 
 IMPORTANT: This document provides recommended specifications and illustrative examples based on community best practices and vendor documentation. Software versions, hardware requirements, and code examples should be verified against current releases and tested before production deployment.
 
----
+
 
 ## Part 1: Core Schema Specification
 
 ### 1.1 Namespace Declarations
-
+```
 @prefix skgi: <http://skgi.org/ontology/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -23,9 +23,9 @@ IMPORTANT: This document provides recommended specifications and illustrative ex
 @prefix foodon: <http://purl.obolibrary.org/obo/FOODON_> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix sio: <http://semanticscience.org/resource/> .
-
+```
 ### 1.2 Core Classes
-
+```
 Microbial Taxon:
 skgi:MicrobialTaxon
     a owl:Class ;
@@ -82,144 +82,159 @@ skgi:Environment
     rdfs:label "Environment"@en ;
     rdfs:comment "An environmental context or habitat"@en ;
     owl:equivalentClass envo:ENVO_01000254 .
-
+```
 ### 1.3 Object Properties (Relationships)
 
 Taxonomic classification:
+```
 skgi:hasTaxonomicClassification
     a owl:ObjectProperty ;
     rdfs:label "has taxonomic classification"@en ;
     rdfs:domain skgi:MicrobialSample ;
     rdfs:range skgi:MicrobialTaxon ;
     skos:definition "Links a sample to its constituent microbial taxa" .
-
+```
 Functional annotation:
+```
 skgi:hasFunctionalAnnotation
     a owl:ObjectProperty ;
     rdfs:label "has functional annotation"@en ;
     rdfs:domain skgi:MicrobialTaxon ;
     rdfs:range skgi:MicrobialFunction ;
     skos:definition "Links a microbe to its functional capabilities" .
-
+```
 Host association:
+```
 skgi:collectedFromHost
     a owl:ObjectProperty ;
     rdfs:label "collected from host"@en ;
     rdfs:domain skgi:MicrobialSample ;
     rdfs:range skgi:HostOrganism ;
     skos:definition "Indicates the host organism from which a sample was collected" .
-
+```
 Host body site:
+```
 skgi:collectedFromSite
     a owl:ObjectProperty ;
     rdfs:label "collected from site"@en ;
     rdfs:domain skgi:MicrobialSample ;
     rdfs:range uberon:UBERON_0001062 ;
     skos:definition "Indicates the anatomical site from which a sample was collected" .
-
+```
 Disease association:
+```
 skgi:associatedWith
     a owl:ObjectProperty ;
     rdfs:label "associated with"@en ;
     rdfs:domain skgi:MicrobialTaxon ;
     rdfs:range skgi:Disease ;
     skos:definition "Indicates an association between a microbe and a disease" .
-
+```
 Chemical interaction:
+```
 skgi:produces
     a owl:ObjectProperty ;
     rdfs:label "produces"@en ;
     rdfs:domain skgi:MicrobialTaxon ;
     rdfs:range skgi:ChemicalCompound ;
     skos:definition "Indicates that a microbe produces a chemical compound" .
-
+```
 AMR relationship - confers resistance:
+```
 skgi:confersResistanceTo
     a owl:ObjectProperty ;
     rdfs:label "confers resistance to"@en ;
     rdfs:domain skgi:ARG ;
     rdfs:range skgi:ChemicalCompound ;
     skos:definition "Indicates that an ARG confers resistance to an antimicrobial compound" .
-
+```
 AMR relationship - carries ARG:
+```
 skgi:carriesARG
     a owl:ObjectProperty ;
     rdfs:label "carries ARG"@en ;
     rdfs:domain skgi:MicrobialTaxon ;
     rdfs:range skgi:ARG ;
     skos:definition "Indicates that a microbe carries an antimicrobial resistance gene" .
-
+```
 Environmental context:
+```
 skgi:collectedFromEnvironment
     a owl:ObjectProperty ;
     rdfs:label "collected from environment"@en ;
     rdfs:domain skgi:MicrobialSample ;
     rdfs:range skgi:Environment ;
     skos:definition "Indicates the environmental context of a sample" .
-
+```
 Provenance:
+```
 skgi:derivedFrom
     a owl:ObjectProperty ;
     rdfs:label "derived from"@en ;
     rdfs:domain skgi:MicrobialSample ;
     rdfs:range prov:Entity ;
     skos:definition "Links a sample to its source data or study" .
-
+```
 ### 1.4 Data Properties
-
 Sample identifier:
+```
 skgi:sampleId
     a owl:DatatypeProperty ;
     rdfs:label "sample identifier"@en ;
     rdfs:domain skgi:MicrobialSample ;
     rdfs:range xsd:string .
-
+```
 Collection date:
+```
 skgi:collectionDate
     a owl:DatatypeProperty ;
     rdfs:label "collection date"@en ;
     rdfs:domain skgi:MicrobialSample ;
     rdfs:range xsd:date .
-
+```
 Abundance:
+```
 skgi:abundance
     a owl:DatatypeProperty ;
     rdfs:label "abundance"@en ;
     rdfs:domain skgi:hasTaxonomicClassification ;
     rdfs:range xsd:float ;
     skos:definition "Relative abundance of a taxon in a sample (0.0 to 1.0)" .
-
+```
 Association score:
+```
 skgi:associationScore
     a owl:DatatypeProperty ;
     rdfs:label "association score"@en ;
     rdfs:domain skgi:associatedWith ;
     rdfs:range xsd:float ;
     skos:definition "Statistical score indicating strength of association" .
-
+```
 P-value:
+```
 skgi:pValue
     a owl:DatatypeProperty ;
     rdfs:label "p-value"@en ;
     rdfs:domain skgi:associatedWith ;
     rdfs:range xsd:float .
-
+```
 Data source:
+```
 skgi:dataSource
     a owl:DatatypeProperty ;
     rdfs:label "data source"@en ;
     rdfs:domain prov:Entity ;
     rdfs:range xsd:string ;
     skos:definition "Original database or repository of the data" .
-
+```
 Access date:
+```
 skgi:accessDate
     a owl:DatatypeProperty ;
     rdfs:label "access date"@en ;
     rdfs:domain prov:Entity ;
     rdfs:range xsd:dateTime .
-
----
+```
 
 ## Part 2: Technology Stack Recommendations
 
@@ -238,10 +253,11 @@ Small Scale (< 100,000 nodes):
 | Validation | SHACL | - | Data quality constraints |
 
 Estimated Hardware Requirements:
+```
 - RAM: 8 GB minimum
 - Storage: 50 GB SSD
 - CPU: 4 cores
-
+```
 *Verify current versions at implementation time.
 
 Medium Scale (100,000 - 1,000,000 nodes):
@@ -255,10 +271,11 @@ Medium Scale (100,000 - 1,000,000 nodes):
 | Validation | SHACL + GraphDB constraints | - | Integrated validation |
 
 Estimated Hardware Requirements:
+```
 - RAM: 32 GB minimum
 - Storage: 500 GB SSD
 - CPU: 8 cores
-
+```
 *Verify current versions at implementation time.
 
 Large Scale (> 1,000,000 nodes):
@@ -272,11 +289,12 @@ Large Scale (> 1,000,000 nodes):
 | Graph Analytics | Neptune ML / Stardog BI | - | Integrated analytics |
 
 Estimated Hardware Requirements:
+```
 - Cloud deployment recommended
 - RAM: 128 GB+ (auto-scaling)
 - Storage: 2 TB+ SSD
 - CPU: 16+ cores (auto-scaling)
-
+```
 *Verify current versions at implementation time.
 
 ### 2.2 Property Graph Component (Optional)
@@ -294,15 +312,14 @@ Integration pattern: Use Neo4j for graph analytics, synchronize key entities wit
 
 *Verify current versions at implementation time.
 
----
 
 ## Part 3: Data Ingestion Pipeline
 
 Note: Code examples are illustrative. Test and adapt for production use.
 
 ### 3.1 MGnify Integration
-
 mgnify_ingestion.py - EXAMPLE CODE, NOT TESTED:
+```
 import requests
 import rdflib
 from rdflib import Graph, Namespace, URIRef, Literal
@@ -339,9 +356,9 @@ def validate_against_schema(graph, shacl_graph):
         inference='rdfs'
     )
     return conforms, results_text
-
+```
 ### 3.2 CARD Integration
-
+```
 card_ingestion.py - EXAMPLE CODE, NOT TESTED:
 def fetch_card_data():
     """Example function - NOT TESTED"""
@@ -362,21 +379,21 @@ def transform_arg_to_rdf(arg_data):
         g.add((arg_uri, SKGI.confersResistanceTo, drug_uri))
     return g
 
----
+```
 
 ## Part 4: Benchmarking Protocol
 
 Note: See BENCHMARK_PROTOCOL.md for detailed proposed benchmarks. All metrics are aspirational targets, not validated results.
-
+```
 4.1 Competency Queries (Proposed): See BENCHMARK_PROTOCOL.md Section 2
 4.2 Link Prediction Benchmark (Proposed): See BENCHMARK_PROTOCOL.md Section 3
 4.3 Entity Resolution Benchmark (Proposed): See BENCHMARK_PROTOCOL.md Section 4
 4.4 Query Performance Benchmark (Proposed): See BENCHMARK_PROTOCOL.md Section 5
-
----
+```
 
 ## Part 5: SHACL Validation Rules
 
+```
 skgi_validation.shacl - EXAMPLE, NOT TESTED:
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix skgi: <http://skgi.org/ontology/> .
@@ -419,14 +436,12 @@ skgi:AssociationShape
         sh:maxInclusive 1.0 ;
         sh:maxCount 1 ;
     ] .
-
----
+```
 
 ## Part 6: Example Implementation
 
 See src/skgi/example_implementation.py for illustrative code (not tested in production).
 
----
 
 ## References
 
@@ -437,6 +452,6 @@ See src/skgi/example_implementation.py for illustrative code (not tested in prod
 ---
 
 Document version: 1.0
-Last updated: April 9, 2026
+Last updated: April 14, 2026
 Status: RECOMMENDED SPECIFICATIONS - Verify before implementation
 Maintainer: [Thabet Slimani - t.slimani@tu.edu.sa]
