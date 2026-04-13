@@ -400,6 +400,6 @@ When reporting benchmark results, include:
 ---
 
 Document version: 1.0
-Last updated: April 11, 2026
+Last updated: April , 2026
 Status: PROPOSED FRAMEWORK - Not validated or benchmarked
 Maintainer: [Thabet Slimani - thabet.slimani@gmail.com]
