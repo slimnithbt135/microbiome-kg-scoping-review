@@ -66,13 +66,21 @@ microbiome-kg-scoping-review/
 │
 ├── outputs/                           # Generated outputs
 │   ├── figures/                       # PRISMA and analysis figures
-│   │   ├── Figure_1A_Temporal_Distribution.png
-│   │   ├── Figure_1B_Category_Distribution.png
-│   │   ├── Figure_1C_Technology_Distribution.png
-│   │   ├── Figure_1D_FAIR_Compliance.png
-│   │   ├── Figure_1E_Source_Distribution.png
-│   │   ├── Figure_1F_Ontology_Usage.png
-│   │   └── Figure_1_Combined_Analysis.png
+│   │   ├── Figure_1_PRISMA_ScR.png
+│   │   ├── Figure_2_Combined_Analysis.png
+│   │   ├── Figure_2_Temporal_Distribution.png
+│   │   ├── Figure_2B_Category_Distribution.png
+│   │   ├── Figure_3_taxonomy_distribution.png
+│   │   ├── Figure_4_Source_Distribution.png
+│   │   ├── Figure_5_Technology_Distribution.png
+│   │   ├── Figure_6_Ontology_Usage.png
+│   │   ├── Figure_7_FAIR_Compliance.png
+│   │   ├── Figure_8_technology_ontology_gap.png
+│   │   ├── Figure_9_SKGI_enriched_style.png
+│   │   ├── Figure_10_End_to_End_Pipeline_v3.png
+│   │   ├── Figure_11_Tradeoff_Analysis_no_title.png
+│   │   ├── Figure_12_Temporal_corrected.png
+│   │   └── Figure_13_screening_decision_logic_fig5.png
 │   │
 │   └── reports/                       # Analysis reports
 │       ├── classification_analysis_report.json
